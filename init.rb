@@ -8,11 +8,10 @@ Redmine::Plugin.register :view_customize do
   author_url 'https://github.com/onozaty'
 
   menu :admin_menu, :view_customizes,
-    { :controller => 'view_customizes', :action => 'index' },
-    :caption => :label_view_customize,
-    :html => { :class => 'icon icon-view_customize'},
-    :icon => 'view_customize', :plugin => 'view_customize',
-    :if => Proc.new { User.current.admin? }
+    { controller: 'view_customizes', action: 'index' },
+    caption: :label_view_customize,
+    html: { class: 'icon icon-view_customize' },
+    if: Proc.new { Pundit.policy(User.current, :menu).allowed?(:view_customizes) }
 
   settings :default => { 'create_api_access_key' => '' }, :partial => 'settings/view_customize_settings'
 
